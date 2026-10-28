@@ -42,7 +42,9 @@
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="https" android:host="viverpresenteyoga.com.br" android:pathPrefix="/equipe/" />
+                <data android:scheme="https" android:host="viverpresenteyoga.com.br" android:pathPrefix="/painel.html" />
+                <data android:scheme="https" android:host="viverpresenteyoga.com.br" android:pathPrefix="/admin.html" />
+                <data android:scheme="https" android:host="viverpresenteyoga.com.br" android:pathPrefix="/master.html" />
             </intent-filter>
         </activity>
 

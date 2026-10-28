@@ -1,8 +1,8 @@
-# VP Equipe (APK)
+# VP Painel (APK)
 
-Aplicativo Android do **Viver Presente Equipe**, o painel de acompanhamento do projeto para a equipe de gestão.
-O app é um invólucro (Trusted Web Activity) do aplicativo web publicado em
-`https://viverpresenteyoga.com.br/equipe/`: quadro do projeto, mensagens com anexos, cadastros recebidos e avisos.
+Aplicativo Android do painel do **Viver Presente** para a equipe de gestão. O app é um invólucro (Trusted Web
+Activity) do painel publicado em `https://viverpresenteyoga.com.br/painel.html`, que leva cada conta ao seu painel
+(administração ou master): quadro do projeto, curadoria, correio da equipe, cadastros recebidos, indicadores e avisos no celular.
 
 ## Como obter o APK
 
