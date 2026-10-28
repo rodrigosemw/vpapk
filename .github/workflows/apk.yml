@@ -56,20 +56,20 @@ jobs:
       - name: Nomear o arquivo
         run: |
           mkdir -p saida
-          cp app/build/outputs/apk/release/app-release.apk "saida/vp-equipe-${VERSION_NAME}.apk"
+          cp app/build/outputs/apk/release/app-release.apk "saida/vp-painel-${VERSION_NAME}.apk"
           ls -la saida
 
       - uses: actions/upload-artifact@v4
         with:
-          name: vp-equipe-${{ env.VERSION_NAME }}
+          name: vp-painel-${{ env.VERSION_NAME }}
           path: saida/*.apk
 
       - name: Publicar na página de Releases
         uses: softprops/action-gh-release@v2
         with:
           tag_name: v${{ env.VERSION_NAME }}
-          name: VP Equipe ${{ env.VERSION_NAME }}
+          name: VP Painel ${{ env.VERSION_NAME }}
           body: |
-            APK do app Viver Presente Equipe (assinatura ${{ env.ASSINATURA }}).
+            APK do app VP Painel (assinatura ${{ env.ASSINATURA }}).
             Instalar no Android: baixar o arquivo .apk abaixo pelo navegador do celular e abrir; permitir a instalação de fontes desconhecidas se o aparelho pedir.
           files: saida/*.apk
