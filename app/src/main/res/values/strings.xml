@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">VP Equipe</string>
+    <string name="launch_url">https://viverpresenteyoga.com.br/equipe/</string>
+    <string name="web_manifest_url">https://viverpresenteyoga.com.br/equipe/manifest.webmanifest</string>
+    <string name="provider_authority">br.com.viverpresenteyoga.equipe.fileprovider</string>
+    <string name="asset_statements">[{ \"relation\": [\"delegate_permission/common.handle_all_urls\"], \"target\": { \"namespace\": \"web\", \"site\": \"https://viverpresenteyoga.com.br\" } }]</string>
+</resources>

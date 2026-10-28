@@ -1,0 +1,75 @@
+name: Gerar APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  apk:
+    name: Compilar e publicar
+    runs-on: ubuntu-latest
+    env:
+      VERSION_CODE: ${{ github.run_number }}
+      VERSION_NAME: 1.0.${{ github.run_number }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: android-actions/setup-android@v3
+        with:
+          packages: 'platforms;android-34 build-tools;34.0.0'
+
+      - uses: gradle/actions/setup-gradle@v3
+        with:
+          gradle-version: '8.7'
+
+      - name: Chave de assinatura
+        env:
+          KEYSTORE_B64: ${{ secrets.KEYSTORE_B64 }}
+        run: |
+          if [ -n "$KEYSTORE_B64" ]; then
+            echo "$KEYSTORE_B64" | base64 -d > app/release.keystore
+            echo "ASSINATURA=oficial" >> "$GITHUB_ENV"
+          else
+            keytool -genkeypair -keystore app/release.keystore -alias vpapk -keyalg RSA -keysize 2048 \
+              -validity 10000 -storepass android -keypass android \
+              -dname "CN=Viver Presente (provisorio), O=Viver Presente, C=BR"
+            echo "ASSINATURA=provisoria" >> "$GITHUB_ENV"
+          fi
+
+      - name: Compilar
+        env:
+          KEYSTORE_FILE: release.keystore
+          KEY_ALIAS: vpapk
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD || 'android' }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD || 'android' }}
+        run: gradle assembleRelease --no-daemon
+
+      - name: Nomear o arquivo
+        run: |
+          mkdir -p saida
+          cp app/build/outputs/apk/release/app-release.apk "saida/vp-equipe-${VERSION_NAME}.apk"
+          ls -la saida
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: vp-equipe-${{ env.VERSION_NAME }}
+          path: saida/*.apk
+
+      - name: Publicar na página de Releases
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: v${{ env.VERSION_NAME }}
+          name: VP Equipe ${{ env.VERSION_NAME }}
+          body: |
+            APK do app Viver Presente Equipe (assinatura ${{ env.ASSINATURA }}).
+            Instalar no Android: baixar o arquivo .apk abaixo pelo navegador do celular e abrir; permitir a instalação de fontes desconhecidas se o aparelho pedir.
+          files: saida/*.apk

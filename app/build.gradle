@@ -1,0 +1,43 @@
+plugins {
+    id 'com.android.application'
+}
+
+def env = { String nome, String padrao -> System.getenv(nome) ?: padrao }
+
+android {
+    namespace 'br.com.viverpresenteyoga.equipe'
+    compileSdk 34
+
+    defaultConfig {
+        applicationId 'br.com.viverpresenteyoga.equipe'
+        minSdk 23
+        targetSdk 34
+        versionCode env('VERSION_CODE', '1').toInteger()
+        versionName env('VERSION_NAME', '1.0')
+    }
+
+    signingConfigs {
+        release {
+            storeFile file(env('KEYSTORE_FILE', 'release.keystore'))
+            storePassword env('KEYSTORE_PASSWORD', 'android')
+            keyAlias env('KEY_ALIAS', 'vpapk')
+            keyPassword env('KEY_PASSWORD', 'android')
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            signingConfig signingConfigs.release
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_17
+        targetCompatibility JavaVersion.VERSION_17
+    }
+}
+
+dependencies {
+    implementation 'com.google.androidbrowserhelper:androidbrowserhelper:2.5.0'
+}
